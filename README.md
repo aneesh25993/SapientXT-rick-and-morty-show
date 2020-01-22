@@ -1,1 +1,0 @@
-# SapientXT-rick-and-morty-show
