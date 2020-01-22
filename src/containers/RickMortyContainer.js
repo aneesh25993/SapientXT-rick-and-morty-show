@@ -4,6 +4,7 @@ import { Row, Col, Container, Button, Alert } from "react-bootstrap";
 import FilterView from "../components/FilterView";
 import { FormControl } from "react-bootstrap";
 import { Form } from "react-bootstrap";
+import FilterItem from "../components/FilterItem";
 
 export default class RickMortyContainer extends Component {
   constructor(props) {
@@ -80,14 +81,12 @@ export default class RickMortyContainer extends Component {
 
           if (this.state.orderChar == "desc")
             charResults = charResults.reverse();
-          this.setState(
-            {
-              pageCount: data.info.pages,
-              characters: charResults,
-              unfilteredCharacters: charResults,
-              filterOptions: filterOptions
-            },
-          );
+          this.setState({
+            pageCount: data.info.pages,
+            characters: charResults,
+            unfilteredCharacters: charResults,
+            filterOptions: filterOptions
+          });
         } else
           this.setState({
             characters: [],
@@ -244,39 +243,35 @@ export default class RickMortyContainer extends Component {
             />
           </Col>
           <Col>
-            <Row>
+            <Row className="ml-2">
               <Col xs={12} md={8}>
                 <Row>
-                  <b>Selected Filters</b>
+                  <b >Selected Filters</b>
                 </Row>
                 <Row>
                   {this.state.filterOptions.species.map((item, index) => {
                     return (
                       item.selected && (
-                        <Alert
+                        <FilterItem
                           key={index}
-                          className="filter-alert"
-                          variant="success"
-                          onClose={() => this.onSelectFilter("species", index)}
-                          dismissible
-                        >
-                          <p className="ml-1">Species : {item.name}</p>
-                        </Alert>
+                          name={`Species : ${item.name}`}
+                          onCloseClick={() =>
+                            this.onSelectFilter("species", index)
+                          }
+                        />
                       )
                     );
                   })}
                   {this.state.filterOptions.gender.map((item, index) => {
                     return (
                       item.selected && (
-                        <Alert
+                        <FilterItem
                           key={index}
-                          className="filter-alert"
-                          variant="success"
-                          onClose={() => this.onSelectFilter("gender", index)}
-                          dismissible
-                        >
-                          <p className="ml-1">Gender : {item.name}</p>
-                        </Alert>
+                          name={`Gender : ${item.name}`}
+                          onCloseClick={() =>
+                            this.onSelectFilter("gender", index)
+                          }
+                        />
                       )
                     );
                   })}
@@ -284,23 +279,23 @@ export default class RickMortyContainer extends Component {
               </Col>
               <Col xs={12} md={4}>
                 <Row>
-                  <Col>
+                  <Col xs={3}>
                     {this.state.page != 1 && (
-                      <Button value="Prev" onClick={this.changePage.bind(this)}>
+                      <Button variant="info" value="Prev" onClick={this.changePage.bind(this)}>
                         Prev
                       </Button>
                     )}
                   </Col>
-                  <Col md={4}>
+                  <Col md={4} xs={6}>
                     <FormControl
                       value={this.state.page}
                       onChange={this.changePage.bind(this)}
                     />{" "}
                     Out of {this.state.pageCount}
                   </Col>
-                  <Col>
+                  <Col xs={3}>
                     {this.state.page != this.state.pageCount && (
-                      <Button value="Next" onClick={this.changePage.bind(this)}>
+                      <Button variant="info" value="Next" onClick={this.changePage.bind(this)}>
                         Next
                       </Button>
                     )}
@@ -311,14 +306,14 @@ export default class RickMortyContainer extends Component {
             <Row>
               <Col xs={12} md={8}>
                 <Row>
-                  <Col md={8}>
+                  <Col md={6} xs={6}>
                     <FormControl
                       value={this.state.name}
                       onChange={this.handleSearch.bind(this)}
                       placeholder="Search by Name"
                     />
                   </Col>
-                  <Col md={2}>
+                  <Col md={2} xs={3}>
                     <Button
                       value="search"
                       onClick={this.handleSearch.bind(this)}
@@ -326,10 +321,10 @@ export default class RickMortyContainer extends Component {
                       Search
                     </Button>
                   </Col>
-                  <Col md={2}>
+                  <Col md={2} xs={3}>
                     <Button
                       value="clear"
-                      variant="info"
+                      variant="danger"
                       onClick={this.handleSearch.bind(this)}
                     >
                       Clear
@@ -357,11 +352,11 @@ export default class RickMortyContainer extends Component {
             </Row>
             <Row className="container-character">
               {this.state.characters.length == 0
-                ? `No characters found!!!`
+                ? <Form.Label style={{color:"white"}}>No characters found!!!</Form.Label>
                 : this.state.characters.map(item => {
                     return (
                       <Col
-                        sm={6}
+                        xs={6}
                         md={3}
                         key={item.id}
                         className="container-character mt-1 mb-1"

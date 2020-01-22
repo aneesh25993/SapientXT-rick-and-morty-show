@@ -11,6 +11,10 @@ module.exports = {
         use: ['babel-loader']
       },// loader for SCSS preprocessor
       {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
         test: /\.scss$/,
         use: [
             process.env.NODE_ENV !== 'production' ? 'style-loader' : MiniCssExtractPlugin.loader, // fallback to style-loader in development
