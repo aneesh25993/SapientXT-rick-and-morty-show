@@ -1,4 +1,4 @@
-#Rick & morty Show - SapientXT Case Study
+# Rick & morty Show - SapientXT Case Study
 
 ## Run the webapp
 2 ways to run the webapp
